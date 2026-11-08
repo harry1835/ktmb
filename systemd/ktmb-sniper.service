@@ -1,0 +1,16 @@
+[Unit]
+Description=KTMB Shuttle Tebrau Automated Sniper & Checkout Bot
+After=network-online.target ktmb-display.service
+Requires=ktmb-display.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ktmb-shuttle-bot
+Environment=DISPLAY=:99
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/ktmb-shuttle-bot/.venv/bin/python /opt/ktmb-shuttle-bot/ktmb_sniper.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

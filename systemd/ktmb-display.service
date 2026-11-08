@@ -1,0 +1,19 @@
+[Unit]
+Description=Virtual X11 Display (Xvfb + x11vnc + noVNC) for KTMB Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ktmb-shuttle-bot
+ExecStart=/bin/bash -c '\
+  Xvfb :99 -screen 0 1366x968x24 -ac +extension GLX +render -noreset & \
+  sleep 1; \
+  DISPLAY=:99 fluxbox & \
+  x11vnc -display :99 -forever -shared -nopw -rfbport 5900 -quiet & \
+  websockify --web=/usr/share/novnc/ 6080 localhost:5900 \
+'
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
